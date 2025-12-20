@@ -262,11 +262,14 @@ export default function NotesApp({ freeNotes, projectLogs, systemNotes }) {
                                             
                                             {/* Subtitle / Metadata */}
                                             <div className="mt-2 text-sm text-zinc-400 space-y-1">
+                                                {item.data.description && (
+                                                    <p className="line-clamp-2 text-zinc-400 mb-2">{item.data.description}</p>
+                                                )}
                                                  {item.data.series && (
                                                      <p className="font-medium text-blue-400 flex items-center gap-1">
                                                         <FolderIcon />
                                                         {getSeriesName(item)}
-                                                     </p>
+                                                    </p>
                                                 )}
                                                 {item.data.project && (
                                                      <p className="font-medium text-zinc-300">{item.data.project}</p>
