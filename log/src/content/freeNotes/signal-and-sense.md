@@ -17,31 +17,31 @@ We are living through the consequences of a system that optimized for **access**
 
 The series is broken into four distinct movements:
 
-#### [1. The Pandora’s Box of Web 2.0: When Democratization Becomes Dilution](./essays/pandoras-box)
+#### [1. The Pandora’s Box of Web 2.0: When Democratization Becomes Dilution](/freeNotes/the-pandoras-box-of-web-2)
 *The Historical Shift.*
 In the beginning, the internet had a "High-Agency Filter." To participate, you had to be a nerd or have a budget. When Web 2.0 removed those barriers, it democratized expression but opened the door to an epistemological crisis: an incentive structure that rewards "talking" over "thoughtfulness."
 
-#### [2. The Reputation Trap: Why Algorithms Kill the Magic of Discovery](./essays/reputation-trap)
+#### [2. The Reputation Trap: Why Algorithms Kill the Magic of Discovery](/freeNotes/why-algorithms-kill-serendipity)
 *The Technical Failure.*
 As volume exploded, we turned to deterministic algorithms to filter the noise. But by optimizing for "Reputation Scores" and "Engagement," platforms created a system that rewards those who game the metrics rather than those who provide merit. The result? The "Loss of Magic."
 
-#### [3. The New Scribes: The Hidden Skill Gap of the Information Age](./essays/new-scribes)
+#### [3. The New Scribes: The Hidden Skill Gap of the Information Age](/freeNotes/the-new-scribes)
 *The Human Cost.*
 Discovery has become a specialized trade. We have inadvertently returned to a world of "Scribes," where only power users with deep technical "grind" can find high-signal information. This essay explores why the "Semantic Web" failed to save us by asking humans to do the machine's job.
 
-#### [4. The LLM as the Semantic Bridge: Getting the Magic Back](./essays/semantic-bridge)
+#### [4. The LLM as the Semantic Bridge: Getting the Magic Back](/freeNotes/llm-as-semantic-bridge)
 *The Visionary Solution.*
 We are at a hinge point. By using Large Language Models to infer **Context** and **Intent**, we are finally achieving the "Semantic" dream. We are moving from a world of keyword-matching to a world of real-time synthesis, where the machine finally understands the "Logos" of our questions.
 
----
+
 
 ### Why This Matters
 
 If you are a builder, a writer, or a curious navigator of the digital world, understanding the shift from **Deterministic Search** to **Semantic Inference** is the most important meta-skill you can develop. 
 
-This series is part of a larger exploration into **Connection Replacement Theory**—my ongoing project to map how technology transforms the nature of human connection and community formation.
+This series is part of a larger exploration into **AI Co-Pilots for augumenting human potential**. It also intersects with my work on **Social Replacement Theory**, my ongoing project to map how technology transforms the nature of human connection and community formation. 
 
 ---
 
 **Where to go next?**
-If you want to understand how these shifts change the way we work, read [The Emotional and Cognitive Shifts Programming Teaches](../programming-shifts).
+If you want to understand how these shifts change the way we work, read [The Emotional and Cognitive Shifts Programming Teaches](/freeNotes/the-emotional-and-cognitive-shifts-programming-teaches).

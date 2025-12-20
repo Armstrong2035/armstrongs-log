@@ -4,6 +4,8 @@ date: 2025-12-20
 tags: ["power-dynamics", "sociology", "psychology", "incentives", "systems-thinking"]
 maturity: "budding"
 confidence: "conviction"
+series:
+    name: "Culture"
 relatedNotes: ["The Emotional and Cognitive Shifts Programming Teaches", "The Price of Convenience: When Services Replace Community"]
 ---
 

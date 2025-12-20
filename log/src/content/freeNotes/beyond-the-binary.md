@@ -3,6 +3,8 @@ title: "Beyond the Binary: The Intellectual Cost of Debate"
 date: 2025-12-20
 tags: ["critical thinking", "education", "philosophy"]
 maturity: "budding"
+series:
+    name: "Meta Cognition"
 confidence: "conviction"
 ---
 

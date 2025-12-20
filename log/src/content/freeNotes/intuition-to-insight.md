@@ -4,6 +4,8 @@ date: 2025-12-20
 tags: ["metacognition", "writing", "communication", "intuition", "epistemology"]
 maturity: "budding"
 confidence: "conviction"
+series:
+    name: "Meta Cognition"
 relatedNotes: ["The Emotional and Cognitive Shifts Programming Teaches", "Beyond the Binary: The Intellectual Cost of Debate"]
 ---
 

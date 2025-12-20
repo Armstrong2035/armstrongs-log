@@ -3,6 +3,8 @@ title: "The Inner Dialogue as Manager: A Framework for Understanding Thought"
 date: 2025-12-19
 tags: ["metacognition", "decision-making", "productivity", "flow-state", "systems-thinking"]
 maturity: "budding"
+series:
+    name: "Meta Cognition"
 ---
 
 

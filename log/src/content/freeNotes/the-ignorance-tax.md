@@ -4,6 +4,8 @@ date: 2025-12-20
 tags: ["sociology", "economics", "trust", "Africa", "transparency"]
 maturity: "budding"
 confidence: "conviction"
+series: 
+    name: "Culture"
 relatedNotes: ["The Asymmetric Cycle: Why Those With Power Never See What They've Started", "The Price of Convenience: When Services Replace Community"]
 ---
 
