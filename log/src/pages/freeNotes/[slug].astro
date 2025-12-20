@@ -1,0 +1,64 @@
+---
+import { getCollection } from 'astro:content';
+import '../../styles/global.css';
+
+export async function getStaticPaths() {
+  const notes = await getCollection('freeNotes');
+  return notes.map(note => ({
+    params: { slug: note.slug },
+    props: { note },
+  }));
+}
+
+const { note } = Astro.props;
+const { Content } = await note.render();
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>{note.data.title}</title>
+  </head>
+  <body class="bg-zinc-950 text-zinc-100 font-sans antialiased">
+    <div class="max-w-3xl mx-auto p-6 md:p-12">
+       <a href="/" class="text-zinc-500 hover:text-white mb-8 inline-flex items-center text-sm font-medium transition-colors">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+        Back to Dashboard
+      </a>
+      
+      <article class="prose prose-zinc prose-invert prose-lg max-w-none">
+        <div class="mb-10 pb-6 border-b border-zinc-800">
+            <h1 class="text-4xl font-extrabold tracking-tight text-white mb-4">{note.data.title}</h1>
+            <div class="flex gap-4 text-sm items-center text-zinc-400">
+                 {note.data.maturity && (
+                  <span class={`px-2 py-0.5 rounded-full text-xs font-semibold uppercase tracking-wide
+                        ${note.data.maturity === 'evergreen' ? 'bg-emerald-900/30 text-emerald-400 border border-emerald-900/50' : 
+                          note.data.maturity === 'budding' ? 'bg-amber-900/30 text-amber-400 border border-amber-900/50' : 
+                          'bg-zinc-800 text-zinc-400 border border-zinc-700'}`
+                  }>
+                    {note.data.maturity}
+                  </span>
+                )}
+                 <span>•</span>
+                 <span>{note.data.date.toLocaleDateString()}</span>
+            </div>
+        </div>
+        
+        <Content />
+
+        {note.data.tags && note.data.tags.length > 0 && (
+          <div class="mt-12 pt-6 border-t border-zinc-800">
+            <div class="flex gap-2 flex-wrap">
+              {note.data.tags.map(tag => (
+                <span class="bg-zinc-900 text-zinc-300 px-3 py-1 rounded-full text-sm border border-zinc-800">
+                  #{tag}
+                </span>
+              ))}
+            </div>
+          </div>
+        )}
+      </article>
+    </div>
+  </body>
+</html>

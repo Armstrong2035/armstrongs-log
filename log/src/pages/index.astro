@@ -1,0 +1,25 @@
+---
+import { getCollection } from 'astro:content';
+import NotesApp from '../components/NotesApp';
+import '../styles/global.css';
+
+const freeNotes = await getCollection('freeNotes');
+const projectLogs = await getCollection('projectLogs');
+const systemNotes = await getCollection('system');
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>Armstrong's Log</title>
+  </head>
+  <body>
+    <NotesApp 
+      freeNotes={freeNotes} 
+      projectLogs={projectLogs} 
+      systemNotes={systemNotes} 
+      client:load 
+    />
+  </body>
+</html>
