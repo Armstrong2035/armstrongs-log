@@ -4,6 +4,7 @@ date: 2025-12-20
 tags: ["programming", "metacognition", "learning", "psychology", "growth-mindset"]
 maturity: "evergreen"
 confidence: "conviction"
+series: "Hacker Theology"
 relatedNotes: ["Beyond the Binary: The Intellectual Cost of Debate"]
 ---
 

@@ -4,6 +4,7 @@ date: 2025-12-20
 tags: ["sociology", "community", "capitalism", "loneliness"]
 maturity: "evergreen"
 confidence: "conviction"
+series: "Social Replacement Theory"
 relatedNotes: ["The Fire and the Sun: Why Digital Connection Can't Replace the Real Thing", "The Price of Convenience: When Services Replace Community"]
 ---
 

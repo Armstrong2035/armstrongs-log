@@ -4,6 +4,7 @@ date: 2025-12-20
 tags: ["theology", "philosophy", "programming", "ontology", "logic"]
 maturity: "budding"
 confidence: "speculation"
+series: "Hacker Theology"
 relatedNotes: ["The Emotional and Cognitive Shifts Programming Teaches"]
 ---
 

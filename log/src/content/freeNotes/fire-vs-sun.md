@@ -4,6 +4,7 @@ date: 2025-12-20
 tags: ["technology", "psychology", "social", "philosophy"]
 maturity: "evergreen"
 confidence: "conviction"
+series: "Social Replacement Theory"
 relatedNotes: ["Beyond the Binary: The Intellectual Cost of Debate", "The Price of Convenience: When Services Replace Community"]
 ---
 

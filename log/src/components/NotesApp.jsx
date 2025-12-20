@@ -8,20 +8,69 @@ const CloseIcon = () => (
     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
 );
 
+const FolderIcon = () => (
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="mr-2 opacity-50"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg>
+);
+
+const ChevronDown = () => (
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+);
+
 export default function NotesApp({ freeNotes, projectLogs, systemNotes }) {
+    // Determine the view: 'About', 'Project Logs', 'Free Notes' (all), or a specific series name
     const [currentView, setCurrentView] = useState('Free Notes');
+    const [expandedFolders, setExpandedFolders] = useState({ 'Free Notes': true });
     const [searchQuery, setSearchQuery] = useState('');
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
+    // Extract unique series from freeNotes
+    const uniqueSeries = useMemo(() => {
+        const seriesSet = new Set(freeNotes.map(note => note.data.series).filter(Boolean));
+        return Array.from(seriesSet).sort();
+    }, [freeNotes]);
+
+    // Define navigation structure
     const navigation = [
-        { name: 'About', count: systemNotes.length, data: systemNotes, path: '/system' },
-        { name: 'Free Notes', count: freeNotes.length, data: freeNotes, path: '/freeNotes' },
-        { name: 'Project Logs', count: projectLogs.length, data: projectLogs, path: '/projectLogs' },
+        { 
+            name: 'About', 
+            count: systemNotes.length, 
+            data: systemNotes, 
+            path: '/system',
+            type: 'flat'
+        },
+        { 
+            name: 'Free Notes', 
+            count: freeNotes.length, 
+            data: freeNotes, 
+            path: '/freeNotes',
+            type: 'folder',
+            subItems: uniqueSeries.map(series => ({
+                name: series,
+                count: freeNotes.filter(n => n.data.series === series).length,
+                data: freeNotes.filter(n => n.data.series === series),
+                path: '/freeNotes' // Base path remains the same, we just filter logic
+            }))
+        },
+        { 
+            name: 'Project Logs', 
+            count: projectLogs.length, 
+            data: projectLogs, 
+            path: '/projectLogs',
+            type: 'flat'
+        },
     ];
 
     const currentData = useMemo(() => {
-        const view = navigation.find(n => n.name === currentView);
-        return view ? view.data : [];
+        // Check if current view is a main category
+        const mainCategory = navigation.find(n => n.name === currentView);
+        if (mainCategory) return mainCategory.data;
+
+        // Check if current view is a series sub-item
+        const freeNotesNav = navigation.find(n => n.name === 'Free Notes');
+        const subItem = freeNotesNav.subItems.find(s => s.name === currentView);
+        if (subItem) return subItem.data;
+
+        return [];
     }, [currentView, navigation]);
 
     const filteredData = useMemo(() => {
@@ -30,9 +79,17 @@ export default function NotesApp({ freeNotes, projectLogs, systemNotes }) {
         );
     }, [currentData, searchQuery]);
 
-    const getBasePath = (viewName) => {
-        const item = navigation.find(n => n.name === viewName);
-        return item ? item.path : '/';
+    const getBasePath = (item) => {
+        // If it's a series, it lives under Free Notes
+        if (uniqueSeries.includes(currentView)) return '/freeNotes';
+        
+        const navItem = navigation.find(n => n.name === currentView);
+        return navItem ? navItem.path : '/';
+    };
+
+    const toggleFolder = (folderName, e) => {
+        e.stopPropagation();
+        setExpandedFolders(prev => ({ ...prev, [folderName]: !prev[folderName] }));
     };
 
     return (
@@ -59,28 +116,70 @@ export default function NotesApp({ freeNotes, projectLogs, systemNotes }) {
                 ${mobileMenuOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
             `}>
                 <div className="p-6 pt-20 lg:pt-6">
-                    <h1 className="text-2xl font-bold mb-8 hidden lg:block tracking-tight">Armstrong's Log</h1>
+                    <h1 className="text-2xl font-bold mb-8 hidden lg:block tracking-tight text-white">Armstrong's Log</h1>
                     
                     <nav className="space-y-1">
                         {navigation.map((item) => (
-                            <button
-                                key={item.name}
-                                onClick={() => {
-                                    setCurrentView(item.name);
-                                    setMobileMenuOpen(false);
-                                    setSearchQuery('');
-                                }}
-                                className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
-                                    currentView === item.name
-                                        ? 'bg-zinc-800 text-white'
-                                        : 'text-zinc-400 hover:bg-zinc-900 hover:text-white'
-                                }`}
-                            >
-                                <span>{item.name}</span>
-                                <span className="text-xs bg-zinc-800 text-zinc-400 px-2 py-0.5 rounded-full border border-zinc-700">
-                                    {item.count}
-                                </span>
-                            </button>
+                            <div key={item.name} className="space-y-1">
+                                <div 
+                                    className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-sm font-medium transition-colors cursor-pointer ${
+                                        currentView === item.name
+                                            ? 'bg-zinc-800 text-white'
+                                            : 'text-zinc-400 hover:bg-zinc-900 hover:text-white'
+                                    }`}
+                                    onClick={() => {
+                                        setCurrentView(item.name);
+                                        setSearchQuery('');
+                                        if (!item.subItems) setMobileMenuOpen(false);
+                                    }}
+                                >
+                                    <div className="flex items-center flex-1">
+                                        {item.subItems && (
+                                            <button 
+                                                onClick={(e) => toggleFolder(item.name, e)}
+                                                className="mr-2 p-0.5 rounded hover:bg-zinc-700 text-zinc-500 hover:text-white transition"
+                                            >
+                                                <span className={`transform transition-transform inline-block ${expandedFolders[item.name] ? 'rotate-0' : '-rotate-90'}`}>
+                                                    <ChevronDown />
+                                                </span>
+                                            </button>
+                                        )}
+                                        <span>{item.name}</span>
+                                    </div>
+                                    <span className="text-xs bg-zinc-900 text-zinc-500 px-2 py-0.5 rounded-full border border-zinc-800">
+                                        {item.count}
+                                    </span>
+                                </div>
+
+                                {/* Sub Items (Clusters) */}
+                                {item.subItems && expandedFolders[item.name] && (
+                                    <div className="pl-4 space-y-1 mt-1 border-l border-zinc-800 ml-3">
+                                        {item.subItems.map(sub => (
+                                            <button
+                                                key={sub.name}
+                                                onClick={() => {
+                                                    setCurrentView(sub.name);
+                                                    setMobileMenuOpen(false);
+                                                    setSearchQuery('');
+                                                }}
+                                                className={`w-full flex items-center justify-between px-3 py-1.5 rounded-lg text-sm transition-colors ${
+                                                    currentView === sub.name
+                                                        ? 'bg-zinc-900 text-blue-400'
+                                                        : 'text-zinc-500 hover:text-zinc-300'
+                                                }`}
+                                            >
+                                                <div className="flex items-center">
+                                                    <FolderIcon />
+                                                    <span className="truncate max-w-[120px]" title={sub.name}>{sub.name}</span>
+                                                </div>
+                                                <span className="text-xs text-zinc-600">
+                                                    {sub.count}
+                                                </span>
+                                            </button>
+                                        ))}
+                                    </div>
+                                )}
+                            </div>
                         ))}
                     </nav>
                 </div>
@@ -96,6 +195,15 @@ export default function NotesApp({ freeNotes, projectLogs, systemNotes }) {
                     {/* Header Controls */}
                     <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-8 gap-4">
                         <div>
+                            <div className="flex items-center gap-2 text-sm text-zinc-500 mb-1">
+                                {uniqueSeries.includes(currentView) && (
+                                    <>
+                                        <span>Free Notes</span>
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                                    </>
+                                )}
+                                <span>{uniqueSeries.includes(currentView) ? 'Series' : 'Collection'}</span>
+                            </div>
                             <h2 className="text-3xl font-bold text-white tracking-tight">{currentView}</h2>
                             <p className="text-sm text-zinc-500 mt-1">
                                 {filteredData.length} {filteredData.length === 1 ? 'entry' : 'entries'} found
@@ -123,7 +231,7 @@ export default function NotesApp({ freeNotes, projectLogs, systemNotes }) {
                                 {filteredData.map(item => (
                                     <a
                                         key={item.slug}
-                                        href={`${getBasePath(currentView)}/${item.slug}`}
+                                        href={`${getBasePath(item)}/${item.slug}`}
                                         className="group bg-zinc-900 p-6 rounded-2xl shadow-sm hover:shadow-lg hover:shadow-zinc-900/50 hover:bg-zinc-800 transition-all duration-200 border border-zinc-800 flex flex-col h-48"
                                     >
                                         <div className="flex-1">
@@ -133,6 +241,12 @@ export default function NotesApp({ freeNotes, projectLogs, systemNotes }) {
                                             
                                             {/* Subtitle / Metadata */}
                                             <div className="mt-2 text-sm text-zinc-400 space-y-1">
+                                                 {item.data.series && (
+                                                     <p className="font-medium text-blue-400 flex items-center gap-1">
+                                                        <FolderIcon />
+                                                        {item.data.series}
+                                                     </p>
+                                                )}
                                                 {item.data.project && (
                                                      <p className="font-medium text-zinc-300">{item.data.project}</p>
                                                 )}

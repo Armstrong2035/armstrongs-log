@@ -4,6 +4,7 @@ date: 2025-12-20
 tags: ["community", "digital-culture", "sociology", "internet"]
 maturity: "budding"
 confidence: "conviction"
+series: "Social Replacement Theory"
 relatedNotes: ["The Fire and the Sun: Why Digital Connection Can't Replace the Real Thing", "The Price of Convenience: When Services Replace Community"]
 ---
 

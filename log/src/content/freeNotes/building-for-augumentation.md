@@ -4,7 +4,9 @@ date: 2025-12-20
 tags: ["AI", "ethics", "technology", "augmentation", "theology"]
 maturity: "evergreen"
 confidence: "conviction"
+series: "Hacker Theology"
 relatedNotes: ["Programming as Participation in Logos", "The Price of Convenience: When Services Replace Community"]
+
 ---
 
 Layer 3 AI, emergent systems that can surprise us and display intelligence we didn't explicitly program, is no longer theoretical. It's here. The genie is out of the bottle, and nothing can put it back. This isn't a call to stop. It's a recognition that we face a choice about what we build and how we build it. And that choice will determine whether these tools elevate humanity or degrade it.
