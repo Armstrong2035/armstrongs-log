@@ -4,7 +4,9 @@ date: 2025-12-20
 tags: ["AI", "ethics", "technology", "augmentation", "theology"]
 maturity: "evergreen"
 confidence: "conviction"
-series: "Hacker Theology"
+series:
+  name: "Hacker Theology"
+  order: 3
 relatedNotes: ["Programming as Participation in Logos", "The Price of Convenience: When Services Replace Community"]
 
 ---

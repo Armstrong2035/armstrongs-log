@@ -4,7 +4,9 @@ date: 2025-12-20
 tags: ["algorithms", "platform-design", "discovery", "signal-to-noise"]
 maturity: "budding"
 confidence: "conviction"
-series: "Signal & Sense"
+series:
+    name: "Signal & Sense"
+    order: 2
 relatedNotes: ["The Asymmetric Cycle: Why Those With Power Never See What They've Started", "Intangible Townsquares: Where Community Really Lives Online"]
 ---
 

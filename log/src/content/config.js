@@ -9,7 +9,13 @@ const freeNotesCollection = defineCollection({
     maturity: z.enum(['seedling', 'budding', 'evergreen']).optional(), // How developed is this thought?
     relatedNotes: z.array(z.string()).optional(), // Connect ideas
     confidence: z.enum(['speculation', 'hypothesis', 'conviction']).optional(),
-    series: z.string().optional(), // Group notes into a series/cluster
+    series: z.union([
+        z.string(),
+        z.object({
+            name: z.string(),
+            order: z.number().optional()
+        })
+    ]).optional(), // Group notes into a series/cluster
   })
 });
 

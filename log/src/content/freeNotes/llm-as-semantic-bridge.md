@@ -4,8 +4,10 @@ date: 2025-12-20
 tags: ["AI", "LLMs", "Semantic-Web", "Search", "Future-of-Tech"]
 maturity: "evergreen"
 confidence: "conviction"
-series: "Signal & Sense"
-relatedNotes: ["Programming as Participation in Logos", "Building for Augmentation, Not Replacement"]
+series:
+    name: "Signal & Sense"
+    order: 4
+relatedNotes: ["The Pandora’s Box of Web 2.0: When Democratization Becomes Dilution", "The Reputation Trap: Why Algorithms Kill the Magic of Discovery", "The New Scribes: The Hidden Skill Gap of the Information Age", "Building for Augmentation, Not Replacement"]
 ---
 
 For decades, the internet has suffered from a context deficit. We built a system that is world-class at filing content-based tags but fundamentally illiterate when it comes to human motivation. This is why discovery feels broken: your search engine knows the *words* you typed, but it has no idea *why* you typed them.

@@ -4,7 +4,9 @@ date: 2025-12-20
 tags: ["internet-history", "creator-economy", "epistemology", "incentives"]
 maturity: "budding"
 confidence: "conviction"
-series: "Signal & Sense"
+series:
+    name: "Signal & Sense"
+    order: 1
 relatedNotes: ["The Asymmetric Cycle: Why Those With Power Never See What They've Started"]
 ---
 

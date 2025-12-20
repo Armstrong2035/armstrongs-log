@@ -23,9 +23,20 @@ export default function NotesApp({ freeNotes, projectLogs, systemNotes }) {
     const [searchQuery, setSearchQuery] = useState('');
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
+    // Helper functions for series handling
+    const getSeriesName = (note) => {
+        if (!note.data.series) return null;
+        return typeof note.data.series === 'string' ? note.data.series : note.data.series.name;
+    };
+
+    const getSeriesOrder = (note) => {
+        if (!note.data.series || typeof note.data.series === 'string') return Infinity;
+        return note.data.series.order ?? Infinity;
+    };
+
     // Extract unique series from freeNotes
     const uniqueSeries = useMemo(() => {
-        const seriesSet = new Set(freeNotes.map(note => note.data.series).filter(Boolean));
+        const seriesSet = new Set(freeNotes.map(note => getSeriesName(note)).filter(Boolean));
         return Array.from(seriesSet).sort();
     }, [freeNotes]);
 
@@ -46,8 +57,18 @@ export default function NotesApp({ freeNotes, projectLogs, systemNotes }) {
             type: 'folder',
             subItems: uniqueSeries.map(series => ({
                 name: series,
-                count: freeNotes.filter(n => n.data.series === series).length,
-                data: freeNotes.filter(n => n.data.series === series),
+                count: freeNotes.filter(n => getSeriesName(n) === series).length,
+                data: freeNotes
+                    .filter(n => getSeriesName(n) === series)
+                    .sort((a, b) => {
+                        // Primary sort: Order (ascending)
+                        const orderA = getSeriesOrder(a);
+                        const orderB = getSeriesOrder(b);
+                        if (orderA !== orderB) return orderA - orderB;
+                        
+                        // Secondary sort: Date (descending) - newer items first if same order or no order
+                        return new Date(b.data.date) - new Date(a.data.date);
+                    }),
                 path: '/freeNotes' // Base path remains the same, we just filter logic
             }))
         },
@@ -244,7 +265,7 @@ export default function NotesApp({ freeNotes, projectLogs, systemNotes }) {
                                                  {item.data.series && (
                                                      <p className="font-medium text-blue-400 flex items-center gap-1">
                                                         <FolderIcon />
-                                                        {item.data.series}
+                                                        {getSeriesName(item)}
                                                      </p>
                                                 )}
                                                 {item.data.project && (

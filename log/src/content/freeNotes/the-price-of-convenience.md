@@ -4,11 +4,13 @@ date: 2025-12-20
 tags: ["sociology", "community", "capitalism", "loneliness"]
 maturity: "evergreen"
 confidence: "conviction"
-series: "Social Replacement Theory"
+series:
+  name: "Social Replacement Theory"
+  order: 2
 relatedNotes: ["The Fire and the Sun: Why Digital Connection Can't Replace the Real Thing", "The Price of Convenience: When Services Replace Community"]
 ---
 
-When we talk about the loneliness epidemic, we often focus on tec   nology: smartphones, social media, the usual suspects. But I think we're missing something deeper: the slow replacement of community bonds with commercial transactions. Let me give you an example that crystallized this for me: hair.
+When we talk about the loneliness epidemic, we often focus on technology: smartphones, social media, the usual suspects. But I think we're missing something deeper: the slow replacement of community bonds with commercial transactions. Let me give you an example that crystallized this for me: hair.
 
 ### The Ritual That Was
 

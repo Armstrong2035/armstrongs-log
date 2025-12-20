@@ -4,7 +4,9 @@ date: 2025-12-20
 tags: ["information-literacy", "history", "search", "professional-classes"]
 maturity: "budding"
 confidence: "conviction"
-series: "Signal & Sense"
+series:
+    name: "Signal & Sense"
+    order: 3
 relatedNotes: ["The Emotional and Cognitive Shifts Programming Teaches", "From Intuition to Insight: The Art of Unpacking Compressed Understanding"]
 ---
 
