@@ -50,4 +50,4 @@ The tricky part is that we are often mistaken about what we actually prioritize.
 
 ---
 
-**Next Step:** Read [Sacrifices as Experience](./sacrifices-as-experience) to understand the cost of the pieces you trade to maintain this control.
+**Next Step:** Read [Sacrifices as Experience](/freeNotes/sacrifices-as-experience) to understand the cost of the pieces you trade to maintain this control.
