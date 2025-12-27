@@ -1,6 +1,6 @@
 ---
 title: "The Law of Numerical Superiority: Why Intentions Don't Win Games"
-date: 2025-12-21
+date: 2025-12-27
 tags: ["metacognition", "mental-models", "chess", "priority", "execution"]
 maturity: "evergreen"
 confidence: "conviction"
