@@ -1,6 +1,6 @@
 ---
 import { getCollection } from 'astro:content';
-import '../../styles/global.css';
+import Layout from '../../layouts/Layout.astro';
 
 export async function getStaticPaths() {
   const notes = await getCollection('projectLogs');
@@ -14,14 +14,11 @@ const { note } = Astro.props;
 const { Content } = await note.render();
 ---
 
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width" />
-    <title>{note.data.title}</title>
-  </head>
-  <body class="bg-zinc-950 text-zinc-100 font-sans antialiased">
-    <div class="max-w-3xl mx-auto p-6 md:p-12">
+<Layout 
+  title={note.data.title}
+>
+  <div class="max-w-3xl mx-auto p-6 md:p-12 text-zinc-100 font-sans antialiased">
+    <div class="max-w-3xl mx-auto">
       <a href="/" class="text-zinc-500 hover:text-white mb-8 inline-flex items-center text-sm font-medium transition-colors">
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
         Back to Dashboard
@@ -49,5 +46,5 @@ const { Content } = await note.render();
         <Content />
       </article>
     </div>
-  </body>
-</html>
+  </div>
+</Layout>

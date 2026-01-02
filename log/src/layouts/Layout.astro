@@ -18,6 +18,7 @@ const {
 const canonicalURL = canonical ? new URL(canonical) : new URL(Astro.url.pathname, Astro.site);
 
 import '../styles/global.css';
+import Footer from '../components/Footer.astro';
 ---
 
 <!doctype html>
@@ -48,8 +49,11 @@ import '../styles/global.css';
         <meta property="twitter:description" content={description} />
         <meta property="twitter:image" content={new URL(image, Astro.url)} />
 	</head>
-	<body class="bg-zinc-950 text-zinc-100 font-sans antialiased">
-		<slot />
+	<body class="bg-zinc-950 text-zinc-100 font-sans antialiased flex flex-col min-h-screen">
+		<main class="flex-grow">
+			<slot />
+		</main>
+		<Footer />
 	</body>
 </html>
 
