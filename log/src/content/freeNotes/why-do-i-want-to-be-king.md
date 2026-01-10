@@ -1,5 +1,5 @@
 ---
-title: "The Machine and the Divine: Warhammer 40,000 as a Mirror for the Modern Soul"
+title: "The Machine And The Divine"
 date: 2025-01-10
 tags: ["theology", "capitalism", "grimdark", "existentialism", "war hammer 40k"]
 maturity: "budding"
