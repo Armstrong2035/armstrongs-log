@@ -23,14 +23,26 @@ Instead of looking for matching words, Product Scout reads an entire store's cat
 
 It operates instantly, feeling snappy and responsive like a normal search engine, but with genuine understanding behind it.
 
-> Under the Hood: 
+### Under the Hood: 
+>     
 > - Framework: FastAPI (Python) — native async architecture for concurrent streaming and real-time telemetry.
 > - Embeddings: Google text-embedding-001 — converts every product in a merchant's catalog into high-dimensional vectors.
 > - Vector Search: Pinecone — finds the closest semantic match to a customer's query in milliseconds.
 > - Reranking: Cohere — second-pass filter ensuring semantic precision before results reach the customer.
 > - Justifications: Gemini 2.0 Flash — generates the Human-AI Handshake tooltips dynamically, streamed in real time.
 > - Data Layer: Supabase PostgreSQL — merchant auth, search logs, attribution events, analytics via stored procedures.
+>       
 
+
+### The Architecture:
+> 
+> - **Ingestion**: When a merchant installs Scout, their entire Shopify catalog is pulled via the Admin API, chunked into semantic units, and converted into 768-dimensional vectors using Google Gemini. These vectors are stored in Pinecone under a merchant-specific namespace — strict multi-tenancy from day one.
+> - **Search**: When a customer types a query, it is embedded into the same vector space and matched against the catalog using cosine similarity. The top candidates are reranked by Cohere for precision, then score-gap trimmed — only results above a statistical relevance threshold reach the customer.
+> - **Streaming**: Results and explanations are delivered in two concurrent phases over a Server-Sent Events connection. Product cards render immediately. Human-AI Handshake explanations stream in as they generate — one per product, in parallel, via Gemini Flash.
+> - **Telemetry**: Every search, click, and cart event is logged asynchronously without touching the search response time. Attribution is resolved in a single PostgreSQL stored procedure when the merchant opens their dashboard.
+> 
+> The result: a sub-second search experience that gets smarter with every query.
+>
 
 ## 3. The Human-AI Handshake
 Product Scout doesn't just return a list of links. Every recommendation comes with a clear, structured explanation of exactly why that product was chosen. It translates technical specifications into real-world benefits. Instead of listing "Vibram Outsole," it tells the customer: "This has a specialised rubber sole that will give you better grip on wet trails."
