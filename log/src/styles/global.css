@@ -22,6 +22,11 @@
 
   .prose {
     font-family: var(--font-serif);
+    
+    & blockquote {
+      @apply border-l-2 border-zinc-800 bg-zinc-900/30 p-6 my-10 rounded-sm italic text-zinc-400 font-serif;
+      & p:last-child { @apply mb-0; }
+    }
   }
 }
 

@@ -48,3 +48,31 @@ const { Content } = await note.render();
     </div>
   </div>
 </Layout>
+
+<style>
+  article :global(blockquote) {
+    border-left: 2px solid #3f3f46;
+    background: rgba(24, 24, 27, 0.5);
+    padding: 1.25rem 1.5rem;
+    margin: 2.5rem 0;
+    border-radius: 2px;
+    font-style: italic;
+    color: #a1a1aa;
+  }
+
+  article :global(blockquote p) {
+    margin: 0;
+    line-height: 1.7;
+  }
+
+  article :global(blockquote strong) {
+    color: #d4d4d8;
+    font-style: normal;
+    display: block;
+    margin-bottom: 0.5rem;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-family: var(--font-sans, 'Inter', sans-serif);
+  }
+</style>

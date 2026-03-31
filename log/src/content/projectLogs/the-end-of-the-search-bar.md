@@ -1,6 +1,6 @@
 ---
 title: "Product Scout: Semantic Search For Shopify Stores"
-project: "Prouduct Scout"
+project: "Product Scout"
 date: 2026-03-09
 status: "mvp"
 ---

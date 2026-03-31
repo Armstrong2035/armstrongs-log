@@ -50,6 +50,24 @@ const seriesOrder = [
     'Chess Theology'
 ];
 
+const allProjectLogs = await getCollection('projectLogs');
+
+// Group project logs by project name
+const logsByProject = allProjectLogs.reduce((acc, log) => {
+    const project = log.data.project || 'Miscellaneous';
+    if (!acc[project]) acc[project] = [];
+    acc[project].push(log);
+    return acc;
+}, {});
+
+// Sort projects alphabetically (or could be custom)
+const featuredProjects = Object.keys(logsByProject).sort();
+
+// Sort logs within each project by date
+Object.keys(logsByProject).forEach(project => {
+    logsByProject[project].sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+});
+
 // Sort and filter series
 const featuredSeries = Object.keys(entriesBySeries)
     .filter(s => s !== 'Uncollected')
@@ -91,22 +109,42 @@ const featuredSeries = Object.keys(entriesBySeries)
 
         <div class="scholarly-hr"></div>
 
-        <!-- Featured Release -->
-        <section class="mb-16">
-            <h2 class="text-xs font-bold uppercase tracking-[0.2em] text-zinc-500 mb-6 flex items-center gap-4">
-                Latest Release <span class="h-px flex-1 bg-zinc-900"></span>
+        <!-- Dynamic Project Index -->
+        <div class="mb-20">
+            <h2 class="text-[10px] font-sans font-bold uppercase tracking-[0.3em] text-zinc-600 mb-12 flex items-center gap-4">
+                Active Projects <span class="h-px flex-1 bg-zinc-900"></span>
             </h2>
-            <div class="p-8 border border-zinc-900 bg-zinc-900/20">
-                <h3 class="text-2xl font-bold text-white mb-4 italic">Product Scout</h3>
-                <p class="text-zinc-400 mb-8 leading-relaxed">
-                    Semantic search for Shopify stores. A co-pilot designed to bridge the gap between human intent and technical specifications through the "Human-AI Handshake."
-                </p>
-                <div class="flex gap-8">
-                    <a href="/projectLogs/the-end-of-the-search-bar" class="text-sm font-sans font-bold uppercase tracking-widest text-blue-400 hover:text-blue-300 transition-colors">Case Study</a>
-                    <a href="https://productscout.shop" target="_blank" class="text-sm font-sans font-bold uppercase tracking-widest text-emerald-400 hover:text-emerald-300 transition-colors">Live Site</a>
-                </div>
+            
+            <div class="grid grid-cols-1 gap-14">
+                {featuredProjects.map(projectName => (
+                    <section>
+                        <h3 class="text-xs font-bold uppercase tracking-[0.2em] text-zinc-500 mb-6 flex items-center gap-4">
+                            {projectName} <span class="h-px flex-1 bg-zinc-900"></span>
+                        </h3>
+                        <ul class="space-y-6">
+                            {logsByProject[projectName].map(log => (
+                                <li class="flex items-start gap-4 group">
+                                    <span class="text-emerald-500/50 mt-1.5 min-w-[12px]">⚒</span>
+                                    <div class="flex-1">
+                                        <a href={`/projectLogs/${log.slug}`} class="text-zinc-200 hover:text-emerald-400 border-b border-zinc-900 hover:border-emerald-900 transition-all text-xl leading-tight block pb-1">
+                                            {log.data.title}
+                                        </a>
+                                        <div class="flex gap-3 text-xs font-mono text-zinc-600 mt-1.5 grayscale opacity-50 group-hover:grayscale-0 group-hover:opacity-100 transition-all">
+                                            <span>{new Date(log.data.date).toLocaleDateString(undefined, { year: 'numeric', month: 'short' })}</span>
+                                            {log.data.status && (
+                                                <span class="uppercase tracking-tighter text-emerald-500/70 border border-emerald-900/30 px-1 rounded-sm text-[9px] font-bold">/ {log.data.status}</span>
+                                            )}
+                                        </div>
+                                    </div>
+                                </li>
+                            ))}
+                        </ul>
+                    </section>
+                ))}
             </div>
-        </section>
+        </div>
+
+        <div class="scholarly-hr"></div>
 
         <!-- Series Index -->
         <div class="grid grid-cols-1 gap-14">
@@ -124,7 +162,7 @@ const featuredSeries = Object.keys(entriesBySeries)
                                     <a href={`/freeNotes/${note.slug}`} class="text-zinc-200 hover:text-blue-400 border-b border-zinc-900 hover:border-blue-900 transition-all text-xl leading-tight block pb-1">
                                         {note.data.title}
                                     </a>
-                                    <div class="flex gap-3 text-xs font-mono text-zinc-600 mt-1.5">
+                                    <div class="flex gap-3 text-xs font-mono text-zinc-600 mt-1.5 grayscale opacity-50 group-hover:grayscale-0 group-hover:opacity-100 transition-all">
                                         <span>{new Date(note.data.date).toLocaleDateString(undefined, { year: 'numeric', month: 'short' })}</span>
                                     </div>
                                 </div>
