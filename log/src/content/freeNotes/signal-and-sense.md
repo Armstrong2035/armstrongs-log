@@ -1,7 +1,10 @@
 ---
 title: "Signal & Sense: A Series on the Future of Discovery"
-description: "How the democratization of the internet broke our ability to find truth, and how Layer 3 systems are bringing the magic back."
+description: "How the democratization of the internet broke our ability to find truth, and how AI systems are bringing the magic back."
 date: 2025-12-20
+series:
+    name: "Signal & Sense"
+    order: 1
 layout: "../../layouts/SeriesLayout.astro"
 ---
 

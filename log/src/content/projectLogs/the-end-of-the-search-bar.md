@@ -1,7 +1,18 @@
 ---
-title: "The End of the Search Bar: Bringing the Salesperson Online"
+title: "Product Scout: Semantic Search For Shopify Stores"
+project: "Prouduct Scout"
 date: 2026-03-09
+status: "mvp"
 ---
+
+<iframe 
+  class="w-full aspect-video rounded-lg shadow-lg my-8"
+  src="https://www.youtube.com/embed/NK4LIzdPyAg" 
+  title="YouTube video player" 
+  frameborder="0" 
+  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+  allowfullscreen>
+</iframe>
 
 ## 1. The Keyword Trap
 Think about the last time you walked into a real, physical store. If you went to a running shop and said, "My knees hurt when I run on pavement," the salesperson wouldn't stare at you blankly. They would use their expertise to hand you a specific shoe and explain exactly how its thick foam absorbs impact.

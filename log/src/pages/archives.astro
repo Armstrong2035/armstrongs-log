@@ -1,0 +1,64 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '../layouts/Layout.astro';
+import ScholarlyHeader from '../components/ScholarlyHeader.astro';
+
+const allFreeNotes = await getCollection('freeNotes');
+const allProjectLogs = await getCollection('projectLogs');
+
+// Sort everything by date
+const allContent = [...allFreeNotes, ...allProjectLogs].sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+
+const getSeriesName = (note) => {
+    if (!note.data.series) return null;
+    return typeof note.data.series === 'string' ? note.data.series : note.data.series.name;
+};
+---
+
+<Layout title="Archives | Armstrong's Log">
+  <div class="min-h-screen bg-zinc-950 text-zinc-300 pb-20">
+    
+    <ScholarlyHeader />
+
+    <main class="max-w-2xl mx-auto px-6">
+        <header class="mb-16">
+            <h1 class="text-4xl font-bold text-white mb-4">Master Index</h1>
+            <p class="text-zinc-500 text-lg">A chronological archive of all essays, technical logs, and explorations.</p>
+        </header>
+
+        <div class="space-y-12">
+            <section>
+                <ul class="space-y-6">
+                    {allContent.map(item => (
+                        <li class="flex items-start gap-4 group">
+                            <span class="text-zinc-800 mt-2 min-w-[12px]">
+                                {item.collection === 'projectLogs' ? '⚒' : '⊕'}
+                            </span>
+                            <div class="flex-1">
+                                <a href={`/${item.collection}/${item.slug}`} class="text-zinc-300 hover:text-blue-400 border-b border-zinc-900 hover:border-blue-900 transition-all text-xl leading-tight block pb-1">
+                                    {item.data.title}
+                                </a>
+                                <div class="flex gap-3 text-xs font-mono text-zinc-600 mt-2">
+                                    <span>{new Date(item.data.date).toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' })}</span>
+                                    <span class="uppercase tracking-tighter text-zinc-700">/ {item.collection === 'projectLogs' ? 'Project' : (getSeriesName(item) || 'Essay')}</span>
+                                </div>
+                                {item.data.description && (
+                                    <p class="text-zinc-500 text-sm mt-2 leading-relaxed line-clamp-2 italic font-serif">
+                                        {item.data.description}
+                                    </p>
+                                )}
+                            </div>
+                        </li>
+                    ))}
+                </ul>
+            </section>
+        </div>
+
+        <div class="scholarly-hr mt-20"></div>
+        
+        <footer class="text-zinc-600 text-sm italic py-10">
+            End of archive.
+        </footer>
+    </main>
+  </div>
+</Layout>

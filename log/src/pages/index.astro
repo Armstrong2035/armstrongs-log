@@ -1,18 +1,164 @@
 ---
 import { getCollection } from 'astro:content';
 import Layout from '../layouts/Layout.astro';
-import NotesApp from '../components/NotesApp';
+import ScholarlyHeader from '../components/ScholarlyHeader.astro';
 
-const freeNotes = await getCollection('freeNotes');
-const projectLogs = await getCollection('projectLogs');
-const systemNotes = await getCollection('system');
+const allFreeNotes = await getCollection('freeNotes');
+
+// Helper functions for series handling
+const getSeriesName = (note) => {
+    if (!note.data.series) return null;
+    return typeof note.data.series === 'string' ? note.data.series : note.data.series.name;
+};
+
+const getSeriesOrder = (note) => {
+    if (!note.data.series || typeof note.data.series === 'string') return Infinity;
+    return note.data.series.order ?? Infinity;
+};
+
+// Group notes by series
+const entriesBySeries = allFreeNotes.reduce((acc, note) => {
+    const series = getSeriesName(note) || 'Uncollected';
+    if (!acc[series]) acc[series] = [];
+    acc[series].push(note);
+    return acc;
+}, {});
+
+// Sort series items by their internal order, with date as a fallback
+Object.keys(entriesBySeries).forEach(series => {
+    entriesBySeries[series].sort((a, b) => {
+        const orderA = getSeriesOrder(a);
+        const orderB = getSeriesOrder(b);
+        
+        // If both have an order, sort by order (ascending)
+        if (orderA !== Infinity || orderB !== Infinity) {
+            return orderA - orderB;
+        }
+        
+        // Fallback to date (descending)
+        return b.data.date.valueOf() - a.data.date.valueOf();
+    });
+});
+
+// Custom order for series display
+const seriesOrder = [
+    'Social Replacement Theory',
+    'Signal & Sense',
+    'Hacker Theology',
+    'Culture And Humanness',
+    'Meta Cognition',
+    'Chess Theology'
+];
+
+// Sort and filter series
+const featuredSeries = Object.keys(entriesBySeries)
+    .filter(s => s !== 'Uncollected')
+    .sort((a, b) => {
+        const indexA = seriesOrder.indexOf(a);
+        const indexB = seriesOrder.indexOf(b);
+        if (indexA === -1 && indexB === -1) return a.localeCompare(b);
+        if (indexA === -1) return 1;
+        if (indexB === -1) return -1;
+        return indexA - indexB;
+    });
+// Add Uncollected at the end if desired, but user just said "Series"
 ---
 
-<Layout title="Armstrong's Log">
-  <NotesApp 
-    freeNotes={freeNotes} 
-    projectLogs={projectLogs} 
-    systemNotes={systemNotes} 
-    client:load 
-  />
+<Layout title="Armstrong's Log | Scholarly Index">
+  <div class="min-h-screen bg-zinc-950 text-zinc-300 selection:bg-blue-500/30 pb-20">
+    
+    <ScholarlyHeader />
+
+    <main class="max-w-2xl mx-auto px-6">
+        <!-- Narrative Intro -->
+        <article class="prose prose-invert prose-zinc max-w-none">
+            <p class="text-xl md:text-2xl text-white leading-relaxed mb-10">
+                This is the website of <span class="font-bold">Armstrong Olusoji</span>. I build AI co-pilots that augment human potential instead of substituting for it.
+            </p>
+            
+            <div class="text-zinc-400 space-y-6 text-lg leading-relaxed">
+                <p>
+                    Building with AI at scale forces us to confront questions most engineers rarely have to ask. What does augmentation actually mean in practice? When does a tool quietly become a substitute for agency? 
+                </p>
+                <p>
+                    This site is where I work through that tension in public. My thinking clusters around <a href="/series/hacker-theology" class="link-scholarly">programming as craft</a>; navigating the <a href="/series/signal-and-sense" class="link-scholarly text-blue-400">noise economy</a>; and the cognitive shifts that emerge from teaching machines to think.
+                </p>
+            </div>
+        </article>
+
+        <div class="scholarly-hr"></div>
+
+        <!-- Featured Release -->
+        <section class="mb-16">
+            <h2 class="text-xs font-bold uppercase tracking-[0.2em] text-zinc-500 mb-6 flex items-center gap-4">
+                Latest Release <span class="h-px flex-1 bg-zinc-900"></span>
+            </h2>
+            <div class="p-8 border border-zinc-900 bg-zinc-900/20">
+                <h3 class="text-2xl font-bold text-white mb-4 italic">Product Scout</h3>
+                <p class="text-zinc-400 mb-8 leading-relaxed">
+                    Semantic search for Shopify stores. A co-pilot designed to bridge the gap between human intent and technical specifications through the "Human-AI Handshake."
+                </p>
+                <div class="flex gap-8">
+                    <a href="/projectLogs/the-end-of-the-search-bar" class="text-sm font-sans font-bold uppercase tracking-widest text-blue-400 hover:text-blue-300 transition-colors">Case Study</a>
+                    <a href="https://productscout.shop" target="_blank" class="text-sm font-sans font-bold uppercase tracking-widest text-emerald-400 hover:text-emerald-300 transition-colors">Live Site</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Series Index -->
+        <div class="grid grid-cols-1 gap-14">
+            
+            {featuredSeries.map(seriesName => (
+                <section>
+                    <h2 class="text-xs font-bold uppercase tracking-[0.2em] text-zinc-500 mb-6 flex items-center gap-4">
+                        {seriesName} <span class="h-px flex-1 bg-zinc-900"></span>
+                    </h2>
+                    <ul class="space-y-6">
+                        {entriesBySeries[seriesName].map(note => (
+                            <li class="flex items-start gap-4 group">
+                                <span class="text-blue-500/50 mt-1.5 min-w-[12px]">⊕</span>
+                                <div class="flex-1">
+                                    <a href={`/freeNotes/${note.slug}`} class="text-zinc-200 hover:text-blue-400 border-b border-zinc-900 hover:border-blue-900 transition-all text-xl leading-tight block pb-1">
+                                        {note.data.title}
+                                    </a>
+                                    <div class="flex gap-3 text-xs font-mono text-zinc-600 mt-1.5">
+                                        <span>{new Date(note.data.date).toLocaleDateString(undefined, { year: 'numeric', month: 'short' })}</span>
+                                    </div>
+                                </div>
+                            </li>
+                        ))}
+                    </ul>
+                </section>
+            ))}
+
+            {/* Optionally show Uncollected notes under a clean title */}
+            {entriesBySeries['Uncollected'] && entriesBySeries['Uncollected'].length > 0 && (
+                <section>
+                    <h2 class="text-xs font-bold uppercase tracking-[0.2em] text-zinc-500 mb-6 flex items-center gap-4">
+                        Miscellaneous / Uncollected <span class="h-px flex-1 bg-zinc-900"></span>
+                    </h2>
+                    <ul class="space-y-6">
+                        {entriesBySeries['Uncollected'].map(note => (
+                            <li class="flex items-start gap-4 group">
+                                <span class="text-zinc-800 mt-1.5 min-w-[12px]">⬽</span>
+                                <div class="flex-1">
+                                    <a href={`/freeNotes/${note.slug}`} class="text-zinc-200 hover:text-blue-400 border-b border-zinc-900 hover:border-blue-900 transition-all text-xl leading-tight block pb-1">
+                                        {note.data.title}
+                                    </a>
+                                </div>
+                            </li>
+                        ))}
+                    </ul>
+                </section>
+            )}
+
+        </div>
+
+        <div class="scholarly-hr mt-20"></div>
+        
+        <footer class="text-zinc-600 text-sm italic py-10 max-w-lg">
+            "I'm not trying to predict the future of technology. I'm trying to help shape the kind of builders and systems that should exist in it."
+        </footer>
+    </main>
+  </div>
 </Layout>

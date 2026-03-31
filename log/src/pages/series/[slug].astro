@@ -1,0 +1,61 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+import ScholarlyHeader from '../../components/ScholarlyHeader.astro';
+
+export async function getStaticPaths() {
+  const allFreeNotes = await getCollection('freeNotes');
+  
+  const seriesSet = new Set();
+  allFreeNotes.forEach(note => {
+    if (note.data.series) {
+      const name = typeof note.data.series === 'string' ? note.data.series : note.data.series.name;
+      if (name) seriesSet.add(name);
+    }
+  });
+
+  return Array.from(seriesSet).map(series => ({
+    params: { slug: series.toLowerCase().replace(/\s+/g, '-') },
+    props: { seriesName: series }
+  }));
+}
+
+const { seriesName } = Astro.props;
+const allFreeNotes = await getCollection('freeNotes');
+const filteredNotes = allFreeNotes.filter(note => {
+    if (!note.data.series) return false;
+    const name = typeof note.data.series === 'string' ? note.data.series : note.data.series.name;
+    return name === seriesName;
+}).sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+---
+
+<Layout title={`${seriesName} | Series`}>
+  <div class="min-h-screen bg-zinc-950 text-zinc-300 pb-20">
+    <ScholarlyHeader />
+    <main class="max-w-2xl mx-auto px-6">
+        <header class="mb-16">
+            <h1 class="text-4xl font-bold text-white mb-4 lowercase tracking-tight">Series: {seriesName}</h1>
+            <p class="text-zinc-500 text-lg">A collection of notes exploring the same core tension.</p>
+        </header>
+
+        <ul class="space-y-8">
+            {filteredNotes.map(note => (
+                <li class="flex items-start gap-4">
+                    <span class="text-zinc-800 mt-2 min-w-[12px]">⊕</span>
+                    <div class="flex-1">
+                        <a href={`/freeNotes/${note.slug}`} class="text-zinc-300 hover:text-blue-400 border-b border-zinc-900 transition-all text-xl leading-tight block pb-1">
+                            {note.data.title}
+                        </a>
+                        <div class="text-xs font-mono text-zinc-600 mt-2">
+                            {new Date(note.data.date).toLocaleDateString(undefined, { year: 'numeric', month: 'short' })}
+                        </div>
+                    </div>
+                </li>
+            ))}
+        </ul>
+
+        <div class="scholarly-hr mt-20"></div>
+        <a href="/archives" class="text-zinc-600 hover:text-white transition-colors text-sm">← Back to Master Index</a>
+    </main>
+  </div>
+</Layout>

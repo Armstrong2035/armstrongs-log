@@ -5,7 +5,7 @@ tags: ["power-dynamics", "sociology", "psychology", "incentives", "systems-think
 maturity: "budding"
 confidence: "conviction"
 series:
-    name: "Culture"
+    name: "Culture And Humanness"
 relatedNotes: ["The Emotional and Cognitive Shifts Programming Teaches", "The Price of Convenience: When Services Replace Community"]
 ---
 

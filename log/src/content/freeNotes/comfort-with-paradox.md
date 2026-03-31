@@ -4,7 +4,7 @@ date: 2025-12-30
 tags: ["paradox", "nuance", "growth", "philosophy", "Christianity", "Jesus", "Beatitudes"]
 maturity: "evergreen"
 confidence: "conviction"
-series: "Humanness"
+series: "Culture And Humanness"
 ---
 
 The intriguing irony about the wicked stepparent trope is as follows: they discipline the stepchild and pamper their biological child. They force all the housework on the stepchild, sparing the biological. In the process, the stepchild learns responsibility, grit, emotional maturity, and other qualities that turn them into a functional adult. Meanwhile, the biological child grows up ill-equipped to handle the real world. They think they're perpetuating wickedness, but they're ruining the one they love and helping the one they hate.

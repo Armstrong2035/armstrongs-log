@@ -4,7 +4,7 @@ date: 2025-01-10
 tags: ["theology", "capitalism", "grimdark", "existentialism", "war hammer 40k"]
 maturity: "budding"
 series:
-    name: "Fiction"
+    name: "Culture And Humanness"
 confidence: "conviction"
 ---
 

@@ -1,0 +1,52 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+import ScholarlyHeader from '../../components/ScholarlyHeader.astro';
+
+const allProjectLogs = await getCollection('projectLogs');
+const sortedLogs = allProjectLogs.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+---
+
+<Layout title="Project Logs | Armstrong's Log">
+  <div class="min-h-screen bg-zinc-950 text-zinc-300 pb-20">
+    <ScholarlyHeader />
+    <main class="max-w-2xl mx-auto px-6">
+        <header class="mb-16">
+            <h1 class="text-4xl font-bold text-white mb-4 tracking-tight">Project Logs</h1>
+            <p class="text-zinc-500 text-lg">Case studies and technical execution notes from the build-out of Applied AI systems.</p>
+        </header>
+
+        <ul class="space-y-12">
+            {sortedLogs.map(log => (
+                <li class="flex items-start gap-5 group">
+                    <span class="text-zinc-800 mt-2 min-w-[12px]">⚒</span>
+                    <div class="flex-1">
+                        <a href={`/projectLogs/${log.slug}`} class="text-zinc-300 hover:text-blue-400 border-b border-zinc-900 transition-all text-xl leading-tight block pb-1">
+                            {log.data.title}
+                        </a>
+                        <div class="flex gap-3 text-xs font-mono text-zinc-600 mt-2">
+                            <span>{new Date(log.data.date).toLocaleDateString(undefined, { year: 'numeric', month: 'short' })}</span>
+                            <span class="uppercase tracking-tighter text-zinc-700">/ {log.data.project}</span>
+                        </div>
+                        {log.data.description && (
+                            <p class="text-zinc-500 text-sm mt-3 leading-relaxed italic font-serif max-w-lg">
+                                {log.data.description}
+                            </p>
+                        )}
+                        <div class="mt-4 flex gap-2">
+                             {log.data.status && (
+                                <span class="text-[10px] uppercase font-sans font-bold tracking-widest text-zinc-600 border border-zinc-900 px-2 py-0.5 rounded-full">
+                                    {log.data.status}
+                                </span>
+                             )}
+                        </div>
+                    </div>
+                </li>
+            ))}
+        </ul>
+
+        <div class="scholarly-hr mt-24"></div>
+        <a href="/archives" class="text-zinc-600 hover:text-white transition-colors text-sm">← Back to Master Index</a>
+    </main>
+  </div>
+</Layout>

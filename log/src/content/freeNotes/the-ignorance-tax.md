@@ -5,7 +5,7 @@ tags: ["sociology", "economics", "trust", "Africa", "transparency"]
 maturity: "budding"
 confidence: "conviction"
 series: 
-    name: "Culture"
+    name: "Culture And Humanness"
 relatedNotes: ["The Asymmetric Cycle: Why Those With Power Never See What They've Started", "The Price of Convenience: When Services Replace Community"]
 ---
 
@@ -45,7 +45,4 @@ I found myself haggling unnecessarily with honest hawkers simply because the env
 This mirrors the "Asymmetric Cycle." The traveler cannot break the cycle by being "good" (paying whatever is asked) because that only reinforces the predatory incentive. The change must come from the structural baseline: the documentation of rules, the pinning of price lists, and the move from **Contextual Power** to **Standardized Logic**.
 
 Until a society decides to make its maps legible to the stranger, it will remain a collection of micro-fiefdoms where the "lore" of the local is the only protection against the whims of the powerful.
-
----
-
-> This note explores the sociological impact of **Standardization**. It links to **The Asymmetric Cycle**, which examines how those with power use structural baseline conditions to shape the behavior of those beneath them.
+
