@@ -1,0 +1,34 @@
+---
+import { getCollection } from 'astro:content';
+import DeepDiveLayout from '../../layouts/DeepDiveLayout.astro';
+
+export async function getStaticPaths() {
+  const deepDives = await getCollection('deepDives');
+  return deepDives.map(dive => ({
+    params: { slug: dive.slug },
+    props: { dive },
+  }));
+}
+
+const { dive } = Astro.props;
+const { Content, headings } = await dive.render();
+---
+
+<DeepDiveLayout 
+  title={dive.data.title}
+  description={dive.data.description}
+  date={dive.data.date}
+  stack={dive.data.stack}
+  headings={headings}
+>
+  <div class="prose-container">
+    <Content />
+  </div>
+</DeepDiveLayout>
+
+<style is:global>
+  /* Extra styling for deep dive content */
+  .prose-container section {
+    @apply mb-16;
+  }
+</style>

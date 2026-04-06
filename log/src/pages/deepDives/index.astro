@@ -1,0 +1,63 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '../layouts/Layout.astro';
+import ScholarlyHeader from '../components/ScholarlyHeader.astro';
+
+const allDeepDives = await getCollection('deepDives');
+const deepDives = allDeepDives.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+---
+
+<Layout title="Engineering Breakdowns | Armstrong's Log">
+  <div class="min-h-screen bg-zinc-950 text-zinc-300 selection:bg-blue-500/30 pb-20">
+    <ScholarlyHeader />
+
+    <main class="max-w-2xl mx-auto px-6">
+        <header class="mb-16">
+            <h1 class="text-4xl font-serif font-bold text-white mb-6">Technical Deep Dives</h1>
+            <p class="text-lg text-zinc-400 italic leading-relaxed">
+                High-density engineering breakdowns of the primitives and architecture powering the future of consultative commerce.
+            </p>
+        </header>
+
+        <div class="scholarly-hr"></div>
+
+        <section class="space-y-12">
+            <h2 class="text-[10px] font-sans font-bold uppercase tracking-[0.3em] text-zinc-600 mb-12 flex items-center gap-4">
+                Architecture & Implementation <span class="h-px flex-1 bg-zinc-900"></span>
+            </h2>
+            
+            <ul class="space-y-10">
+                {deepDives.map(dive => (
+                    <li class="flex items-start gap-4 group">
+                        <span class="text-blue-500/50 mt-1.5 min-w-[12px]">λ</span>
+                        <div class="flex-1">
+                            <a href={`/deepDives/${dive.slug}`} class="text-zinc-200 hover:text-blue-400 border-b border-zinc-900 hover:border-blue-900 transition-all text-xl leading-tight block pb-1">
+                                {dive.data.title}
+                            </a>
+                            <p class="text-sm text-zinc-500 mt-2 line-clamp-2 leading-relaxed">
+                                {dive.data.description}
+                            </p>
+                            <div class="flex flex-wrap gap-3 text-[10px] font-mono text-zinc-600 mt-3 grayscale opacity-40 group-hover:grayscale-0 group-hover:opacity-100 transition-all">
+                                <span>{new Date(dive.data.date).toLocaleDateString(undefined, { year: 'numeric', month: 'short' })}</span>
+                                <span>/</span>
+                                {dive.data.stack?.map(tech => (
+                                    <span class="text-zinc-500">{tech}</span>
+                                ))}
+                                {dive.data.difficulty && (
+                                    <span class="text-blue-500/70 border border-blue-900/30 px-1 rounded-sm">/ {dive.data.difficulty}</span>
+                                )}
+                            </div>
+                        </div>
+                    </li>
+                ))}
+            </ul>
+        </section>
+
+        <div class="scholarly-hr mt-20"></div>
+        
+        <footer class="text-zinc-600 text-sm italic py-10 max-w-lg">
+            Engineering is the act of turning philosophy into proof of work.
+        </footer>
+    </main>
+  </div>
+</Layout>

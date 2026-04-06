@@ -29,6 +29,16 @@ const projectLogsCollection = defineCollection({
   })
 });
 
+const deepDivesCollection = defineCollection({
+  schema: z.object({
+    title: z.string(),
+    description: z.string(),
+    date: z.date(),
+    stack: z.array(z.string()).optional(),
+    difficulty: z.enum(['Intermediate', 'Advanced']).optional(),
+  })
+});
+
 const systemCollection = defineCollection({
   schema: z.object({
     title: z.string(),
@@ -43,4 +53,5 @@ export const collections = {
     freeNotes: freeNotesCollection,
     projectLogs: projectLogsCollection,
     system: systemCollection, 
+    deepDives: deepDivesCollection,
 }

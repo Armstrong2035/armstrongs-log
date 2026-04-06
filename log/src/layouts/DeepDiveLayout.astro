@@ -1,0 +1,108 @@
+---
+import Layout from './Layout.astro';
+import ScholarlyHeader from '../components/ScholarlyHeader.astro';
+
+interface Props {
+  title: string;
+  description: string;
+  date: Date;
+  stack?: string[];
+  headings: { depth: number; slug: string; text: string }[];
+}
+
+const { title, description, date, stack, headings } = Astro.props;
+---
+
+<Layout title={`${title} | Technical Deep Dive`}>
+  <div class="min-h-screen bg-zinc-950 text-zinc-300 selection:bg-blue-500/30 pb-20">
+    <ScholarlyHeader />
+
+    <main class="max-w-5xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-[1fr_250px] gap-12">
+      <!-- Main Content -->
+      <article class="prose prose-zinc prose-invert max-w-none prose-blockquote:border-blue-500/20 prose-blockquote:bg-blue-500/5 prose-blockquote:py-1 prose-headings:font-serif">
+        <header class="mb-12 border-b border-zinc-900 pb-12">
+          <div class="flex items-center gap-2 text-xs font-mono text-zinc-500 mb-4 uppercase tracking-widest">
+            <span>Technical Deep Dive</span>
+            <span>/</span>
+            <span>{date.toLocaleDateString(undefined, { year: 'numeric', month: 'short' })}</span>
+          </div>
+          
+          <h1 class="text-4xl md:text-5xl font-serif font-bold text-white mb-6 leading-tight">
+            {title}
+          </h1>
+          
+          <p class="text-xl text-zinc-400 italic leading-relaxed mb-8">
+            {description}
+          </p>
+
+          {stack && (
+            <div class="flex flex-wrap gap-2 group">
+              {stack.map(item => (
+                <span class="px-2 py-1 bg-zinc-900 border border-zinc-800 text-[10px] font-mono uppercase tracking-tighter text-zinc-500 group-hover:text-zinc-300 transition-colors">
+                  {item}
+                </span>
+              ))}
+            </div>
+          )}
+        </header>
+
+        <div class="content-body font-serif text-lg leading-relaxed text-zinc-300 space-y-8">
+          <slot />
+        </div>
+      </article>
+
+      <!-- Sidebar / ToC -->
+      <aside class="hidden lg:block">
+        <div class="sticky top-12">
+          <h2 class="text-[10px] font-sans font-bold uppercase tracking-[0.2em] text-zinc-600 mb-6 flex items-center gap-3">
+            Structure <span class="h-px flex-1 bg-zinc-900"></span>
+          </h2>
+          <nav>
+            <ul class="space-y-4">
+              {headings.filter(h => h.depth <= 3).map(heading => (
+                <li style={`padding-left: ${(heading.depth - 2) * 1}rem`}>
+                  <a 
+                    href={`#${heading.slug}`}
+                    class="text-xs font-sans text-zinc-500 hover:text-blue-400 transition-colors block leading-snug"
+                  >
+                    {heading.text}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </nav>
+
+          <div class="mt-12 pt-8 border-t border-zinc-900">
+            <p class="text-[10px] font-sans text-zinc-600 uppercase tracking-widest leading-relaxed">
+              This is a high-density breakdown intended for peer review and implementation.
+            </p>
+          </div>
+        </div>
+      </aside>
+    </main>
+  </div>
+</Layout>
+
+<style is:global>
+  /* High-density code styling */
+  pre {
+    @apply border border-zinc-900 rounded-sm p-6 !bg-zinc-900/30 font-mono text-sm leading-relaxed my-8 !important;
+  }
+  code {
+    @apply font-mono text-blue-300/80 !important;
+  }
+  .prose blockquote p {
+    @apply italic text-zinc-400 !important;
+  }
+  
+  /* Smooth highlight for ToC */
+  nav a {
+    position: relative;
+  }
+  nav a:hover::before {
+    content: '⊕';
+    position: absolute;
+    left: -1.25rem;
+    color: #60a5fa;
+  }
+</style>
