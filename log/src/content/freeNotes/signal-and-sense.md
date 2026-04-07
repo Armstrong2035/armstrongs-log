@@ -5,7 +5,6 @@ date: 2025-12-20
 series:
     name: "Signal & Sense"
     order: 1
-layout: "../../layouts/SeriesLayout.astro"
 ---
 
 # Signal & Sense

@@ -1,5 +1,5 @@
 ---
-title: "Poysis: The AI Primitives Platform"
+title: "Poysis: No-Code AI Engineering Platform"
 project: "Poysis"
 date: 2026-04-06
 status: "vision"

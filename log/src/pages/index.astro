@@ -68,10 +68,6 @@ Object.keys(logsByProject).forEach(project => {
     logsByProject[project].sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
 });
 
-// Fetch Deep Dives
-const allDeepDives = await getCollection('deepDives');
-const deepDives = allDeepDives.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
-
 // Sort and filter series using the previously defined seriesOrder
 const featuredSeries = Object.keys(entriesBySeries)
     .filter(s => s !== 'Uncollected')
@@ -150,34 +146,6 @@ const featuredSeries = Object.keys(entriesBySeries)
 
         <div class="scholarly-hr"></div>
 
-        <!-- Technical Deep Dives -->
-        <div class="mb-20">
-            <h2 class="text-[10px] font-sans font-bold uppercase tracking-[0.3em] text-zinc-600 mb-12 flex items-center gap-4">
-                Engineering Breakdowns <span class="h-px flex-1 bg-zinc-900"></span>
-            </h2>
-            
-            <ul class="space-y-8">
-                {deepDives.map(dive => (
-                    <li class="flex items-start gap-4 group">
-                        <span class="text-blue-500/50 mt-1.5 min-w-[12px]">λ</span>
-                        <div class="flex-1">
-                            <a href={`/deepDives/${dive.slug}`} class="text-zinc-200 hover:text-blue-400 border-b border-zinc-900 hover:border-blue-900 transition-all text-xl leading-tight block pb-1">
-                                {dive.data.title}
-                            </a>
-                            <div class="flex flex-wrap gap-3 text-[10px] font-mono text-zinc-600 mt-2 grayscale opacity-40 group-hover:grayscale-0 group-hover:opacity-100 transition-all">
-                                <span>{new Date(dive.data.date).toLocaleDateString(undefined, { year: 'numeric', month: 'short' })}</span>
-                                <span>/</span>
-                                {dive.data.stack?.map(tech => (
-                                    <span class="text-zinc-500">{tech}</span>
-                                ))}
-                            </div>
-                        </div>
-                    </li>
-                ))}
-            </ul>
-        </div>
-
-        <div class="scholarly-hr"></div>
 
         <!-- Series Index -->
         <div class="grid grid-cols-1 gap-14">
