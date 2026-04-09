@@ -25,6 +25,8 @@ const projectLogsCollection = defineCollection({
     project: z.string(),  // Which project?
     date: z.date(),
     status: z.enum(['in-progress', 'mvp', 'iterating', 'vision']).optional(),
+    kicker: z.string().optional(),
+    pinned: z.boolean().optional(),
     // Build diary, decision logs, progress updates
   })
 });

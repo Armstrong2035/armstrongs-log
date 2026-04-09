@@ -86,13 +86,14 @@ const { title, description, date, stack, headings } = Astro.props;
 <style is:global>
   /* High-density code styling */
   pre {
-    @apply border border-zinc-900 rounded-sm p-6 !bg-zinc-900/30 font-mono text-sm leading-relaxed my-8 !important;
+    @apply border border-zinc-900 rounded-sm p-6 bg-zinc-900/30 font-mono text-sm leading-relaxed my-8;
+    background-color: rgba(24, 24, 27, 0.3) !important;
   }
   code {
-    @apply font-mono text-blue-300/80 !important;
+    @apply font-mono text-blue-300/80;
   }
   .prose blockquote p {
-    @apply italic text-zinc-400 !important;
+    @apply italic text-zinc-400;
   }
   
   /* Smooth highlight for ToC */

@@ -26,6 +26,11 @@ const { Content } = await note.render();
       
       <article class="prose prose-zinc prose-invert prose-lg max-w-none">
         <div class="mb-10 pb-6 border-b border-zinc-800">
+            {note.data.kicker && (
+                <div class="text-xs font-bold uppercase tracking-[0.2em] text-emerald-500 mb-4 opacity-80">
+                    {note.data.kicker}
+                </div>
+            )}
             <h1 class="text-4xl font-extrabold tracking-tight text-white mb-4">{note.data.title}</h1>
             <div class="flex gap-4 text-sm items-center text-zinc-400">
                  <span class="font-medium text-zinc-200">{note.data.project}</span>

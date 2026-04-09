@@ -60,12 +60,22 @@ const logsByProject = allProjectLogs.reduce((acc, log) => {
     return acc;
 }, {});
 
-// Sort projects alphabetically (or could be custom)
-const featuredProjects = Object.keys(logsByProject).sort();
+// Sort projects: Pinned projects first, then alphabetically
+const featuredProjects = Object.keys(logsByProject).sort((a, b) => {
+    const aHasPinned = logsByProject[a].some(log => log.data.pinned);
+    const bHasPinned = logsByProject[b].some(log => log.data.pinned);
+    if (aHasPinned && !bHasPinned) return -1;
+    if (!aHasPinned && bHasPinned) return 1;
+    return a.localeCompare(b);
+});
 
-// Sort logs within each project by date
+// Sort logs within each project: Pinned first, then by date
 Object.keys(logsByProject).forEach(project => {
-    logsByProject[project].sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+    logsByProject[project].sort((a, b) => {
+        if (a.data.pinned && !b.data.pinned) return -1;
+        if (!a.data.pinned && b.data.pinned) return 1;
+        return b.data.date.valueOf() - a.data.date.valueOf();
+    });
 });
 
 // Sort and filter series using the previously defined seriesOrder
@@ -126,8 +136,14 @@ const featuredSeries = Object.keys(entriesBySeries)
                                 <li class="flex items-start gap-4 group">
                                     <span class="text-emerald-500/50 mt-1.5 min-w-[12px]">⚒</span>
                                     <div class="flex-1">
+                                        {log.data.kicker && (
+                                            <div class="text-[10px] font-sans font-bold uppercase tracking-[0.2em] text-emerald-500/60 mb-1">
+                                                {log.data.kicker}
+                                            </div>
+                                        )}
                                         <a href={`/projectLogs/${log.slug}`} class="text-zinc-200 hover:text-emerald-400 border-b border-zinc-900 hover:border-emerald-900 transition-all text-xl leading-tight block pb-1">
                                             {log.data.title}
+                                            {log.data.pinned && <span class="ml-2 text-emerald-500/40 text-sm">★</span>}
                                         </a>
                                         <div class="flex gap-3 text-xs font-mono text-zinc-600 mt-1.5 grayscale opacity-50 group-hover:grayscale-0 group-hover:opacity-100 transition-all">
                                             <span>{new Date(log.data.date).toLocaleDateString(undefined, { year: 'numeric', month: 'short' })}</span>
