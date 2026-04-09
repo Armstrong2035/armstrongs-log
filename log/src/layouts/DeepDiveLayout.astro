@@ -84,6 +84,8 @@ const { title, description, date, stack, headings } = Astro.props;
 </Layout>
 
 <style is:global>
+  @reference "../styles/global.css";
+
   /* High-density code styling */
   pre {
     @apply border border-zinc-900 rounded-sm p-6 bg-zinc-900/30 font-mono text-sm leading-relaxed my-8;
