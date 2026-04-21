@@ -61,7 +61,8 @@ if (currentSeriesName) {
 
 <Layout 
   title={note.data.title}
-  description={note.data.description}
+  description={note.data.description || `Thoughts on ${note.data.title} — a note from Armstrong's research log.`}
+  type="article"
 >
   <div class="max-w-3xl mx-auto p-6 md:p-12">
        <a href="/" class="text-zinc-500 hover:text-white mb-8 inline-flex items-center text-sm font-medium transition-colors">

@@ -12,10 +12,14 @@ export async function getStaticPaths() {
 
 const { note } = Astro.props;
 const { Content } = await note.render();
+
+const description = note.data.description || note.data.kicker || `Project log for ${note.data.project}: ${note.data.title}`;
 ---
 
 <Layout 
   title={note.data.title}
+  description={description}
+  type="article"
 >
   <div class="max-w-3xl mx-auto p-6 md:p-12 text-zinc-100 font-sans antialiased">
     <div class="max-w-3xl mx-auto">

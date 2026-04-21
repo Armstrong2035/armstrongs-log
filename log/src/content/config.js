@@ -16,6 +16,7 @@ const freeNotesCollection = defineCollection({
             order: z.number().optional()
         })
     ]).optional(), // Group notes into a series/cluster
+    description: z.string().optional(),
   })
 });
 
@@ -27,6 +28,7 @@ const projectLogsCollection = defineCollection({
     status: z.enum(['in-progress', 'mvp', 'iterating', 'vision']).optional(),
     kicker: z.string().optional(),
     pinned: z.boolean().optional(),
+    description: z.string().optional(),
     // Build diary, decision logs, progress updates
   })
 });
