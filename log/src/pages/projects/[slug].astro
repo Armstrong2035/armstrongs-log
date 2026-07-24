@@ -1,0 +1,153 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+import ScholarlyHeader from '../../components/ScholarlyHeader.astro';
+
+export async function getStaticPaths() {
+  const projects = await getCollection('projects');
+  const allLogs = await getCollection('projectLogs');
+  const allDives = await getCollection('deepDives');
+
+  return projects.map(project => ({
+    params: { slug: project.slug },
+    props: {
+      project,
+      logs: allLogs
+        .filter(l => l.data.project === project.data.name)
+        .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf()),
+      dives: allDives
+        .filter(d => d.data.project === project.data.name)
+        .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf()),
+    },
+  }));
+}
+
+const { project, logs, dives } = Astro.props;
+const { Content } = await project.render();
+
+const ACCENTS = {
+  blue:    { text: 'text-blue-400',    dot: 'text-blue-500/50',    bar: 'bg-blue-500/50' },
+  emerald: { text: 'text-emerald-400', dot: 'text-emerald-500/50', bar: 'bg-emerald-500/50' },
+  violet:  { text: 'text-violet-400',  dot: 'text-violet-500/50',  bar: 'bg-violet-500/50' },
+  amber:   { text: 'text-amber-400',   dot: 'text-amber-500/50',   bar: 'bg-amber-500/50' },
+};
+const a = ACCENTS[project.data.accent ?? 'emerald'];
+const links = (project.data.links ?? []).filter(l => l.url && l.url !== '#');
+---
+
+<Layout
+  title={`${project.data.name} | Armstrong Olusoji`}
+  description={project.data.summary}
+  type="article"
+>
+  <div class="min-h-screen bg-zinc-950 text-zinc-300 selection:bg-blue-500/30 pb-24">
+    <ScholarlyHeader />
+
+    <main class="max-w-3xl mx-auto px-6">
+      <a href="/projects" class="text-xs font-mono text-zinc-600 hover:text-zinc-300 transition-colors">← All work</a>
+
+      <!-- Project header -->
+      <header class="mt-8 mb-16 border-b border-zinc-900 pb-12 relative">
+        <span class={`absolute top-0 left-0 h-px w-16 ${a.bar}`}></span>
+        <div class="flex flex-wrap items-center gap-3 text-[10px] font-sans font-bold uppercase tracking-[0.2em] mb-6">
+          {project.data.status && <span class={a.text}>{project.data.status}</span>}
+          {project.data.role && <span class="text-zinc-600">{project.data.role}</span>}
+          {project.data.year && <span class="text-zinc-600 font-mono">{project.data.year}</span>}
+        </div>
+
+        <h1 class="text-4xl md:text-6xl font-serif font-bold text-white mb-6 leading-[1.05]">
+          {project.data.name}
+        </h1>
+        <p class="text-xl md:text-2xl text-zinc-300 font-serif italic leading-relaxed mb-8 max-w-2xl">
+          {project.data.tagline}
+        </p>
+
+        {project.data.stack && (
+          <div class="flex flex-wrap gap-2 mb-8">
+            {project.data.stack.map(tech => (
+              <span class="px-2 py-1 bg-zinc-900 border border-zinc-800 text-[10px] font-mono uppercase tracking-tighter text-zinc-500">
+                {tech}
+              </span>
+            ))}
+          </div>
+        )}
+
+        {links.length > 0 && (
+          <div class="flex flex-wrap gap-3 text-xs font-sans">
+            {links.map(link => (
+              <a href={link.url} class="px-4 py-2 border border-zinc-800 text-zinc-400 uppercase tracking-wider hover:text-white hover:border-zinc-600 transition-colors">
+                {link.label} ↗
+              </a>
+            ))}
+          </div>
+        )}
+      </header>
+
+      <!-- Overview (project .md body) -->
+      <article class="prose prose-zinc prose-invert max-w-none prose-headings:font-serif font-serif text-lg leading-relaxed text-zinc-300 mb-20">
+        <Content />
+      </article>
+
+      <!-- Technical Deep Dives -->
+      {dives.length > 0 && (
+        <section class="mb-16">
+          <h2 class="text-[10px] font-sans font-bold uppercase tracking-[0.3em] text-zinc-600 mb-10 flex items-center gap-4">
+            Technical Deep Dives <span class="h-px flex-1 bg-zinc-900"></span>
+          </h2>
+          <ul class="space-y-8">
+            {dives.map(dive => (
+              <li class="flex items-start gap-4 group">
+                <span class="text-blue-500/50 mt-1.5 min-w-[12px]">λ</span>
+                <div class="flex-1">
+                  <a href={`/deepDives/${dive.slug}`} class="text-zinc-200 hover:text-blue-400 border-b border-zinc-900 hover:border-blue-900 transition-all text-xl leading-tight block pb-1">
+                    {dive.data.title}
+                  </a>
+                  <p class="text-sm text-zinc-500 mt-2 line-clamp-2 leading-relaxed">{dive.data.description}</p>
+                  <div class="flex flex-wrap gap-3 text-[10px] font-mono text-zinc-600 mt-3">
+                    <span>{new Date(dive.data.date).toLocaleDateString(undefined, { year: 'numeric', month: 'short' })}</span>
+                    {dive.data.difficulty && <span class="text-blue-500/70">/ {dive.data.difficulty}</span>}
+                  </div>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
+
+      <!-- Project Logs -->
+      {logs.length > 0 && (
+        <section class="mb-16">
+          <h2 class="text-[10px] font-sans font-bold uppercase tracking-[0.3em] text-zinc-600 mb-10 flex items-center gap-4">
+            Project Logs <span class="h-px flex-1 bg-zinc-900"></span>
+          </h2>
+          <ul class="space-y-8">
+            {logs.map(log => (
+              <li class="flex items-start gap-4 group">
+                <span class="text-emerald-500/50 mt-1.5 min-w-[12px]">⚒</span>
+                <div class="flex-1">
+                  {log.data.kicker && (
+                    <div class="text-[10px] font-sans font-bold uppercase tracking-[0.2em] text-emerald-500/60 mb-1">{log.data.kicker}</div>
+                  )}
+                  <a href={`/projectLogs/${log.slug}`} class="text-zinc-200 hover:text-emerald-400 border-b border-zinc-900 hover:border-emerald-900 transition-all text-xl leading-tight block pb-1">
+                    {log.data.title}
+                  </a>
+                  <div class="flex gap-3 text-[10px] font-mono text-zinc-600 mt-2">
+                    <span>{new Date(log.data.date).toLocaleDateString(undefined, { year: 'numeric', month: 'short' })}</span>
+                    {log.data.status && <span class="uppercase text-emerald-500/70">/ {log.data.status}</span>}
+                  </div>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
+
+      {logs.length === 0 && dives.length === 0 && (
+        <p class="text-zinc-600 italic text-sm">Write-ups for this project are in progress.</p>
+      )}
+
+      <div class="scholarly-hr mt-16"></div>
+      <a href="/projects" class="text-zinc-600 hover:text-white transition-colors text-sm">← Back to all work</a>
+    </main>
+  </div>
+</Layout>

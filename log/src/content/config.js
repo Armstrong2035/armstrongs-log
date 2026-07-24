@@ -38,8 +38,25 @@ const deepDivesCollection = defineCollection({
     title: z.string(),
     description: z.string(),
     date: z.date(),
+    project: z.string().optional(),  // Which project does this deep dive belong to? Powers the portfolio hub.
     stack: z.array(z.string()).optional(),
     difficulty: z.enum(['Intermediate', 'Advanced']).optional(),
+  })
+});
+
+const projectsCollection = defineCollection({
+  schema: z.object({
+    name: z.string(),            // Must match the `project` field used in projectLogs / deepDives.
+    tagline: z.string(),         // One-line value proposition.
+    summary: z.string(),         // 1–2 sentences for the portfolio card.
+    status: z.enum(['live', 'mvp', 'building', 'vision', 'archived']).optional(),
+    role: z.string().optional(),   // e.g. "Co-founder & Engineer"
+    year: z.string().optional(),   // e.g. "2026"
+    stack: z.array(z.string()).optional(),
+    accent: z.enum(['blue', 'emerald', 'violet', 'amber']).optional(),
+    links: z.array(z.object({ label: z.string(), url: z.string() })).optional(),
+    featured: z.boolean().optional(),
+    order: z.number().optional(),  // Lower = earlier in the portfolio.
   })
 });
 
@@ -56,6 +73,7 @@ const systemCollection = defineCollection({
 export const collections = {
     freeNotes: freeNotesCollection,
     projectLogs: projectLogsCollection,
-    system: systemCollection, 
+    system: systemCollection,
     deepDives: deepDivesCollection,
+    projects: projectsCollection,
 }
