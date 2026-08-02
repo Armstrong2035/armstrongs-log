@@ -1,0 +1,4 @@
+import { notFound } from "next/navigation";
+import { Nav, Footer, Markdown } from "../../components";
+import { deepDives, formatDate } from "../../content";
+export default async function Dive({params}:{params:Promise<{slug:string}>}){const {slug}=await params;const item=deepDives.find((entry)=>entry.slug===slug);if(!item)notFound();return <main><Nav/><section className="articleHero darkHero"><div className="shell"><p className="sectionLabel light">{String(item.meta.project)} · {String(item.meta.difficulty)} · {formatDate(item.date)}</p><h1>{item.title}</h1><p>{item.description}</p><div className="tags lightTags">{(item.meta.stack as string[]||[]).map((tag)=><span key={tag}>{tag}</span>)}</div></div></section><article className="articleBody technicalArticle shell"><Markdown>{item.body}</Markdown></article><Footer/></main>}

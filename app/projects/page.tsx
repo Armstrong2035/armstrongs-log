@@ -1,0 +1,4 @@
+import Link from "next/link";
+import { Nav, Footer } from "../components";
+import { projects, projectMaterial } from "../content";
+export default function Projects(){return <main><Nav/><section className="innerHero shell"><p className="sectionLabel">Projects</p><h1>Software built around <em>domain expertise.</em></h1><p>Product work, technical decisions, demonstrations, and the essays that shaped each system.</p></section><section className="pageBody shell"><div className="archiveGrid">{projects.map((p,i)=>{const material=projectMaterial(p.title);return <Link className={`archiveCard tone-${i+1}`} href={`/projects/${p.slug}`} key={p.slug}><small>{String(p.meta.status)} · {String(p.meta.year)}</small><h2>{p.title}</h2><p>{p.description}</p><b>{material.logs.length} essay{material.logs.length===1?"":"s"} · {material.dives.length} deep dive{material.dives.length===1?"":"s"} · Demo placeholder →</b></Link>})}</div></section><Footer/></main>}
