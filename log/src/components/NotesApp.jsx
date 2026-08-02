@@ -100,7 +100,7 @@ export default function NotesApp({ freeNotes, projectLogs, systemNotes }) {
         );
     }, [currentData, searchQuery]);
 
-    const getBasePath = (item) => {
+    const getBasePath = () => {
         // If it's a series, it lives under Free Notes
         if (uniqueSeries.includes(currentView)) return '/freeNotes';
         
@@ -117,7 +117,7 @@ export default function NotesApp({ freeNotes, projectLogs, systemNotes }) {
         <div className="flex h-screen bg-zinc-950 overflow-hidden font-sans text-zinc-100">
             {/* Mobile Header */}
             <div className="lg:hidden fixed top-0 w-full bg-zinc-950 text-white z-20 flex items-center justify-between p-4 shadow-md border-b border-zinc-800">
-                <span className="font-semibold text-lg">Armstrong's Log</span>
+                <span className="font-semibold text-lg">Armstrong&apos;s Log</span>
                 <button onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
                     {mobileMenuOpen ? <CloseIcon /> : <SidebarIcon />}
                 </button>
@@ -137,7 +137,7 @@ export default function NotesApp({ freeNotes, projectLogs, systemNotes }) {
                 ${mobileMenuOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
             `}>
                 <div className="p-6 pt-20 lg:pt-6">
-                    <h1 className="text-2xl font-bold mb-8 hidden lg:block tracking-tight text-white">Armstrong's Log</h1>
+                    <h1 className="text-2xl font-bold mb-8 hidden lg:block tracking-tight text-white">Armstrong&apos;s Log</h1>
                     
                     <nav className="space-y-1">
                         {navigation.map((item) => (
@@ -206,7 +206,7 @@ export default function NotesApp({ freeNotes, projectLogs, systemNotes }) {
                 </div>
                 
                 <div className="absolute bottom-0 w-full p-4 border-t border-zinc-900 text-xs text-zinc-600 text-center">
-                    &copy; 2025 Armstrong's Log
+                    &copy; 2025 Armstrong&apos;s Log
                 </div>
             </aside>
 
