@@ -1,0 +1,4 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro"; import Nav from "../../components/Nav.astro"; import Footer from "../../components/Footer.astro"; import Markdown from "../../components/Markdown.astro"; import { systemPages } from "../../lib/content"; const page=systemPages.find(item=>item.slug==="about");
+---
+<BaseLayout title="About | Armstrong Olusoji"><main><Nav/><section class="innerHero shell"><p class="sectionLabel">About</p><h1>Armstrong Olusoji</h1><p>Applied AI engineer, builder, and writer.</p></section><article class="articleBody shell">{page&&<Markdown content={page.body}/>}<p class="aboutLink"><a href="/about/how-to-use">How this website works →</a></p></article><Footer/></main></BaseLayout>

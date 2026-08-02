@@ -1,0 +1,12 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Nav from "../../components/Nav.astro";
+import Footer from "../../components/Footer.astro";
+import Markdown from "../../components/Markdown.astro";
+import { essays, formatDate, seriesName } from "../../lib/content";
+export function getStaticPaths() { return essays.map((item) => ({ params: { slug: item.slug }, props: { item } })); }
+const { item } = Astro.props;
+---
+<BaseLayout title={`${item.title} | Armstrong Olusoji`} description={item.description}>
+  <main><Nav/><section class="articleHero shell"><p class="sectionLabel">{seriesName(item)} · {formatDate(item.date)}</p><h1>{item.title}</h1>{item.description ? <p>{item.description}</p> : null}</section><article class="articleBody shell"><Markdown content={item.body}/></article><Footer/></main>
+</BaseLayout>

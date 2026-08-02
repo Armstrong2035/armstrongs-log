@@ -1,0 +1,29 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Nav from "../../components/Nav.astro";
+import Footer from "../../components/Footer.astro";
+import Markdown from "../../components/Markdown.astro";
+import { deepDives, formatDate } from "../../lib/content";
+
+export function getStaticPaths() {
+  return deepDives.map((item) => ({ params: { slug: item.slug }, props: { item } }));
+}
+
+const { item } = Astro.props;
+const stack = Array.isArray(item.meta.stack) ? item.meta.stack : [];
+---
+<BaseLayout title={`${item.title} | Armstrong Olusoji`} description={item.description}>
+  <main>
+    <Nav />
+    <section class="articleHero darkHero">
+      <div class="shell">
+        <p class="sectionLabel light">{String(item.meta.project)} · {String(item.meta.difficulty)} · {formatDate(item.date)}</p>
+        <h1>{item.title}</h1>
+        <p>{item.description}</p>
+        <div class="tags lightTags">{stack.map((tag) => <span>{String(tag)}</span>)}</div>
+      </div>
+    </section>
+    <article class="articleBody technicalArticle shell"><Markdown content={item.body} /></article>
+    <Footer />
+  </main>
+</BaseLayout>

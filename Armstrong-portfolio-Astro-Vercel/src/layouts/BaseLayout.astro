@@ -1,0 +1,15 @@
+---
+import "../styles.css";
+const { title = "Armstrong Olusoji | Applied AI Engineer", description = "Applied AI engineer building domain-specific co-pilots, intelligent commerce tools, and the infrastructure behind them." } = Astro.props;
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="description" content={description} />
+    <link rel="icon" href="/favicon.svg" />
+    <title>{title}</title>
+  </head>
+  <body><slot /></body>
+</html>

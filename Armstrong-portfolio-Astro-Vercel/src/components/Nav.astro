@@ -1,0 +1,14 @@
+---
+const links = [
+  ["/projects", "Projects"],
+  ["/technical", "Technical"],
+  ["/writing", "Writing"]
+];
+---
+<nav class="nav shell" aria-label="Main navigation">
+  <a class="brand" href="/" aria-label="Armstrong Olusoji home">AO<span>.</span></a>
+  <div class="navLinks">
+    {links.map(([href, label]) => <a href={href}>{label}</a>)}
+    <a class="navCta" href="mailto:armstrongolusoji9@gmail.com">Start a conversation ↗</a>
+  </div>
+</nav>
